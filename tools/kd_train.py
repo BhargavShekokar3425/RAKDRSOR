@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+#!/usr/bin/env python
+>>>>>>> d409308ca312a29a84c7fcee87b51475c9190de9
 """
 Phase 2B-i: Knowledge Distillation Training  
 Based on MMRotate's standard train.py with KD loss hook
@@ -13,7 +17,11 @@ import warnings
 import mmcv
 import torch
 from mmcv import Config, DictAction
+<<<<<<< HEAD
 from mmcv.runner import get_dist_info, init_dist, HOOKS
+=======
+from mmcv.runner import get_dist_info, init_dist
+>>>>>>> d409308ca312a29a84c7fcee87b51475c9190de9
 from mmcv.utils import get_git_hash
 
 from mmrotate.apis import train_detector
@@ -25,7 +33,10 @@ from mmcv.runner import Hook
 import torch.nn.functional as F
 
 
+<<<<<<< HEAD
 @HOOKS.register_module()
+=======
+>>>>>>> d409308ca312a29a84c7fcee87b51475c9190de9
 class KDHook(Hook):
     """Knowledge Distillation Loss Hook
     
@@ -33,6 +44,7 @@ class KDHook(Hook):
     """
     rule = None
     
+<<<<<<< HEAD
     def __init__(self, teacher_checkpoint, kd_weight=0.5, **kwargs):
         """Initialize KD hook.
         
@@ -41,6 +53,9 @@ class KDHook(Hook):
             kd_weight (float): Weight for KD loss component
             **kwargs: Additional arguments (ignored, for mmcv compatibility)
         """
+=======
+    def __init__(self, teacher_checkpoint, kd_weight=0.5):
+>>>>>>> d409308ca312a29a84c7fcee87b51475c9190de9
         self.teacher = None
         self.teacher_checkpoint = teacher_checkpoint
         self.kd_weight = kd_weight
@@ -120,6 +135,7 @@ def main():
                                osp.splitext(osp.basename(args.config))[0])
     os.makedirs(cfg.work_dir, exist_ok=True)
     
+<<<<<<< HEAD
     # Set GPU IDs for distributed training
     if args.gpus is not None:
         cfg.gpu_ids = list(range(args.gpus))
@@ -141,6 +157,8 @@ def main():
     if args.auto_resume:
         cfg.auto_resume = args.auto_resume
     
+=======
+>>>>>>> d409308ca312a29a84c7fcee87b51475c9190de9
     # Get rank and world size
     rank, world_size = get_dist_info()
     
@@ -148,10 +166,20 @@ def main():
     seed = init_random_seed(args.seed)
     set_random_seed(seed)
     
+<<<<<<< HEAD
     # Build dataset (only training dataset)
     # Validation is handled internally by train_detector
     datasets = [build_dataset(cfg.data.train)]
     
+=======
+    # Build dataset
+    datasets = [build_dataset(cfg.data.train)]
+    
+    # Add validation dataset if specified
+    if len(cfg.data.get('val', [])) > 0:
+        datasets.append(build_dataset(cfg.data.val))
+    
+>>>>>>> d409308ca312a29a84c7fcee87b51475c9190de9
     # Build model
     model = build_detector(cfg.model)
     
@@ -171,7 +199,10 @@ def main():
     print(f"  Teacher checkpoint: {args.teacher_checkpoint}")
     print(f"  Work directory: {cfg.work_dir}")
     print(f"  Max epochs: {cfg.runner.max_epochs}")
+<<<<<<< HEAD
     print(f"  GPU IDs: {cfg.gpu_ids}")
+=======
+>>>>>>> d409308ca312a29a84c7fcee87b51475c9190de9
     print()
     
     # Train
